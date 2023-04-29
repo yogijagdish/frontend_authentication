@@ -44,9 +44,34 @@ export const userAuthApi = createApi({
         }
       }
     }),
+    changeUserPassword: builder.mutation({
+      query: ({newPassword,access_token}) => {
+        return {
+          url: 'changepassword/',
+          method: 'POST',
+          body: newPassword,
+          headers: {
+            'content-type': 'application/json',
+            'authorization': `Bearer ${access_token}`
+          }
+        }
+      }
+    }),
+    sendUserResetEmail: builder.mutation({
+      query: (user) => {
+        return {
+          url: 'sendemail/',
+          method: 'POST',
+          body: user,
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      }
+    }),
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useResgiterAPIMutation, useLoginAPIMutation,useGetUserDataQuery } = userAuthApi
+export const { useResgiterAPIMutation, useLoginAPIMutation,useGetUserDataQuery,useChangeUserPasswordMutation,useSendUserResetEmailMutation } = userAuthApi

@@ -1,21 +1,21 @@
 import React from "react";
 import { useState } from "react";
+import {useSendUserResetEmailMutation} from "../../services/authAPI"
 
 export default function SendEmailToReset() {
-  const [email, setEmail] = useState({ resetemail: "" });
-  const [error, setError] = useState();
+  const [email, setEmail] = useState({email:""});
+
+  const [sendUserResetEmail,{isLoading}] = useSendUserResetEmailMutation();
 
   const handleChange = (e) => {
     setEmail({ ...email, [e.target.name]: e.target.value });
   };
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    if (email.resetemail) {
-      console.log(email);
-    } else {
-      setError("Enter Your Email Id");
-    }
+    console.log("email",email)
+    const response = await sendUserResetEmail(email);
+    console.log(response)
   };
 
   return (
@@ -26,8 +26,8 @@ export default function SendEmailToReset() {
       </label>
       <input
         type="email"
-        name="resetemail"
-        id="resetemail"
+        name="email"
+        id="email"
         className="w-96 h-8 border-2 rounded-lg mt-4"
         onChange={handleChange}
       />
@@ -40,7 +40,6 @@ export default function SendEmailToReset() {
         {" "}
         Send Email
       </button>
-      <p className="text-red-700 mt-8">{error}</p>
     </div>
   );
 }
